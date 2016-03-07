@@ -1,11 +1,10 @@
-var QuizBuilder = require('../QuizBuilder');
 var xml = require('xml');
 
 function paQuestionToMoodleJSON(question) {
 	if (question.format == 'multiple-choice') {
 		
 		var moodleMultichoiceQuestion = [
-			{ _attr: { type: 'multichoice' } },
+			{ _attr: { type: 'multichoice'} }, 
 			{ name: [ { text: question.title } ] },
 			{ questiontext: [ { text: question.question } ] },
 			{ answernumbering: 'abc' },
@@ -40,26 +39,16 @@ function paQuestionToMoodleJSON(question) {
 	}
 }
 
-function generateMoodleXML(qd, seed) {
-	var result = QuizBuilder.validateQuizDescriptor(qd);
-	if (result.length > 0)
-		throw new Error("Invalid Quiz Descriptor");
-	if (!QuizBuilder.checkSeed(seed)) 
-		throw new Error("Invalid Seed: " + seed);
-
-
-
-	var paQuiz = QuizBuilder.build(qd, seed);
+function generateMoodleXML(quiz) {
 	var moodleQuizJSON = {};
 
-	moodleQuizJSON.quiz = paQuiz.questions.map(function(q) {
+	moodleQuizJSON.quiz = quiz.map(function(q) {
 		return { question: paQuestionToMoodleJSON(q) };
 	});
 
 	return xml([moodleQuizJSON]);
 
 }
-
 
 module.exports.generateMoodleXML = generateMoodleXML;
 
