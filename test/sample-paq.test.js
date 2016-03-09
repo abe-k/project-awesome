@@ -1,6 +1,6 @@
 var expect = require('chai').expect;
-var paq = require('./sample-paq');
-var Randomizer = require('./randomizer');
+var paq = require('../sample-paq');
+var Randomizer = require('../randomizer');
 var sinon = require('sinon');
 var ajv = require('ajv')({
     v5: true,
@@ -51,7 +51,7 @@ describe('addition example paq', function () {
                 title: 'Integer Addition',
                 question: 'What is 3 + 9?',
                 format: 'multiple-choice',
-                choices: []
+                choices: [],
                 answer: '_',
             });
             expect(stub.calledWithExactly('left addend', 10)).to.be.true;
